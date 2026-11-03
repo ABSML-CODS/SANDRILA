@@ -1,0 +1,149 @@
+{#
+  ساندريلا — الصفحة الرئيسية (Twilight / Theme Raed)
+  المسار داخل الثيم: src/views/pages/index.twig
+  ابحثي عن كلمة REPLACE لتبديل الروابط والصور والنصوص.
+#}
+{% extends "layouts.master" %}
+
+{% block styles %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  .sd-home {
+    --sd-wine: #4B1530; --sd-wine-deep: #3A0F25;
+    --sd-gold: #B8924F; --sd-gold-dark: #8A6428;
+    --sd-ivory: #FBF7F2; --sd-blush: #EFDCD5; --sd-line: #E2C9C0;
+    background: var(--sd-ivory); color: var(--sd-wine);
+    font-family: 'IBM Plex Sans Arabic', sans-serif; line-height: 1.7;
+  }
+  .sd-home * { box-sizing: border-box; }
+  .sd-home a { color: inherit; text-decoration: none; }
+  .sd-home a:hover { opacity: .8; }
+  .sd-wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+  .sd-display { font-family: 'Amiri', serif; font-weight: 700; margin: 0; }
+
+  /* عنوان قسم */
+  .sd-head { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; margin-bottom: 32px; }
+  .sd-head::before { content: ""; width: 40px; height: 1px; background: var(--sd-gold); }
+  .sd-head h2 { font-family: 'Amiri', serif; font-size: 40px; font-weight: 700; margin: 0; }
+
+  /* الأزرار */
+  .sd-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 34px; border-radius: 2px; font-weight: 600; border: 1px solid var(--sd-wine); }
+  .sd-btn--solid { background: var(--sd-wine); color: var(--sd-ivory) !important; }
+  .sd-btn--line { background: transparent; color: var(--sd-wine) !important; }
+  .sd-btn--gold { background: var(--sd-gold); border-color: var(--sd-gold); color: #2A0B1A !important; }
+
+  /* الصورة الرئيسية */
+  .sd-hero { display: flex; flex-wrap: wrap; align-items: center; gap: 40px; padding-top: 56px; padding-bottom: 56px; }
+  .sd-hero__text { flex: 1 1 420px; display: flex; flex-direction: column; align-items: flex-start; gap: 22px; }
+  .sd-eyebrow { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 500; }
+  .sd-eyebrow::before { content: ""; width: 40px; height: 1px; background: var(--sd-gold); }
+  .sd-hero h1 { font-family: 'Amiri', serif; font-size: 68px; line-height: 1.25; font-weight: 700; margin: 0; }
+  .sd-hero p { margin: 0; font-size: 18px; max-width: 460px; opacity: .85; }
+  .sd-hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+  .sd-hero__media { flex: 1 1 380px; min-height: 540px; background: var(--sd-blush); border: 1px solid var(--sd-line); border-radius: 999px 999px 24px 24px; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 32px; }
+  .sd-hero__media img { width: 100%; height: 100%; object-fit: cover; align-self: stretch; }
+
+  /* الفئات */
+  .sd-cats { display: flex; flex-wrap: wrap; gap: 20px; }
+  .sd-cat { flex: 1 1 240px; display: flex; flex-direction: column; gap: 14px; }
+  .sd-cat__img { height: 300px; background: var(--sd-blush); border: 1px solid var(--sd-line); border-radius: 160px 160px 8px 8px; overflow: hidden; }
+  .sd-cat__img img { width: 100%; height: 100%; object-fit: cover; }
+  .sd-cat__name { text-align: center; font-family: 'Amiri', serif; font-size: 24px; font-weight: 700; }
+
+  /* أحدث المنتجات */
+  .sd-products-top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 28px; }
+  .sd-products-top .sd-head { margin: 0; align-items: flex-start; }
+  .sd-more { font-weight: 600; border-bottom: 1px solid var(--sd-gold); padding-bottom: 2px; }
+  .sd-home .s-product-card-entry { background: transparent; border: 0; box-shadow: none; }
+  .sd-home .s-product-card-image { background: var(--sd-blush); border: 1px solid var(--sd-line); border-radius: 4px; overflow: hidden; }
+  .sd-home .s-product-card-content-title a { font-weight: 500; color: var(--sd-wine); }
+  .sd-home .s-product-card-price { font-weight: 600; color: var(--sd-wine); }
+
+  /* شريط التخفيضات */
+  .sd-band { background: var(--sd-wine); color: var(--sd-ivory); margin-top: 32px; }
+  .sd-band .sd-wrap { padding-top: 64px; padding-bottom: 64px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 28px; }
+  .sd-band__text { max-width: 560px; display: flex; flex-direction: column; gap: 10px; }
+  .sd-band small { font-size: 14px; font-weight: 600; color: var(--sd-gold); }
+  .sd-band h2 { font-family: 'Amiri', serif; font-size: 44px; line-height: 1.3; font-weight: 700; margin: 0; }
+  .sd-band p { margin: 0; opacity: .85; }
+
+  /* المزايا */
+  .sd-perks { display: flex; flex-wrap: wrap; gap: 32px; padding-top: 56px; padding-bottom: 56px; }
+  .sd-perk { flex: 1 1 260px; display: flex; flex-direction: column; gap: 6px; padding-right: 18px; border-right: 2px solid var(--sd-gold); }
+  .sd-perk strong { font-family: 'Amiri', serif; font-size: 22px; font-weight: 700; }
+  .sd-perk span { opacity: .8; font-size: 15px; }
+
+  .sd-section { padding-top: 40px; padding-bottom: 40px; }
+
+  @media (max-width: 767px) {
+    .sd-hero h1 { font-size: 42px; }
+    .sd-hero__media { min-height: 380px; }
+    .sd-head h2, .sd-band h2 { font-size: 30px; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="sd-home">
+
+  {# ===== الصورة الرئيسية ===== #}
+  <section class="sd-wrap sd-hero">
+    <div class="sd-hero__text">
+      <div class="sd-eyebrow">متجر المناسبات والسهرات</div>
+      <h1>فستانٌ يليقُ<br>بليلتكِ</h1>
+      <p>تشكيلة من فساتين المناسبات والسهرات بقصّات أنيقة وتفاصيل تُبرز حضوركِ في كل مناسبة.</p>
+      <div class="sd-hero__actions">
+        {# REPLACE: رابط صفحة كل المنتجات #}
+        <a class="sd-btn sd-btn--solid" href="#products">تسوّقي الآن</a>
+        {# REPLACE: رابط صفحة التخفيضات #}
+        <a class="sd-btn sd-btn--line" href="#offers">شاهدي التخفيضات</a>
+      </div>
+    </div>
+    <div class="sd-hero__media">
+      {# REPLACE: ارفعي صورة وضعي رابطها هنا: <img src="رابط الصورة" alt="فستان سهرة"> #}
+    </div>
+  </section>
+
+  {# ===== الفئات ===== #}
+  <section class="sd-wrap sd-section">
+    <div class="sd-head"><h2>تسوّقي حسب الفئة</h2></div>
+    <div class="sd-cats">
+      {# REPLACE: href لكل فئة (انسخيه من صفحة القسم في متجرك) + صورة داخل sd-cat__img #}
+      <a class="sd-cat" href="#"><div class="sd-cat__img"></div><div class="sd-cat__name">فساتين السهرة</div></a>
+      <a class="sd-cat" href="#"><div class="sd-cat__img"></div><div class="sd-cat__name">فساتين المناسبات</div></a>
+      <a class="sd-cat" href="#"><div class="sd-cat__img"></div><div class="sd-cat__name">أحذية</div></a>
+      <a class="sd-cat" href="#"><div class="sd-cat__img"></div><div class="sd-cat__name">عطور</div></a>
+    </div>
+  </section>
+
+  {# ===== أحدث المنتجات (منتجات المتجر الحقيقية) ===== #}
+  <section class="sd-wrap sd-section" id="products">
+    <div class="sd-products-top">
+      <div class="sd-head"><h2>أحدث المنتجات</h2></div>
+      <a class="sd-more" href="#">عرض الكل</a>
+    </div>
+    <salla-products-list source="latest" limit="4"></salla-products-list>
+  </section>
+
+  {# ===== شريط التخفيضات ===== #}
+  <section class="sd-band" id="offers">
+    <div class="sd-wrap">
+      <div class="sd-band__text">
+        <small>تخفيضات</small>
+        <h2>أناقةٌ بسعرٍ أجمل</h2>
+        <p>REPLACE: وصف قصير للعرض الحالي أو نسبة الخصم.</p>
+      </div>
+      <a class="sd-btn sd-btn--gold" href="#">تسوّقي العروض</a>
+    </div>
+  </section>
+
+  {# ===== المزايا ===== #}
+  <section class="sd-wrap sd-perks">
+    <div class="sd-perk"><strong>REPLACE: ميزة التوصيل</strong><span>وصف مختصر</span></div>
+    <div class="sd-perk"><strong>REPLACE: ميزة الاستبدال</strong><span>وصف مختصر</span></div>
+    <div class="sd-perk"><strong>REPLACE: ميزة الدفع الآمن</strong><span>وصف مختصر</span></div>
+  </section>
+
+</div>
+{% endblock %}
